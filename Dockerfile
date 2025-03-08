@@ -27,6 +27,9 @@ COPY . /var/www/html
 # Definir el directorio de trabajo
 WORKDIR /var/www/html
 
+# Instalar las dependencias de Composer
+RUN composer install --no-dev --optimize-autoloader
+
 # Asignar permisos correctos a Laravel
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
