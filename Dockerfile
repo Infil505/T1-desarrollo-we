@@ -1,6 +1,9 @@
 # Usa la imagen oficial de PHP con Apache
 FROM php:8.4-apache
 
+# Establecer ServerName para suprimir la advertencia
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Habilitar mod_rewrite para Laravel y establecer DocumentRoot en /public
 RUN a2enmod rewrite \
     && sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
