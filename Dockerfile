@@ -29,7 +29,7 @@ COPY . /var/www/html
 
 # Copiar el archivo .env si lo tienes
 # (Descomenta la siguiente línea si tienes un archivo .env que quieras copiar al contenedor)
-# COPY .env /var/www/html/.env
+COPY .env /var/www/html/.env
 
 # Definir el directorio de trabajo
 WORKDIR /var/www/html
