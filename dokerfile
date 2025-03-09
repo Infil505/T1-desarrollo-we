@@ -30,23 +30,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd mbstring \
     && echo "Installed required PHP extensions"
 
+# Copiar los archivos del proyecto Laravel (incluido el archivo .env y composer.json)
+COPY . /var/www/html
+
 # Verificar que el archivo `composer.json` exista
 RUN if [ ! -f /var/www/html/composer.json ]; then \
         echo "composer.json is missing"; \
         exit 1; \
     else \
         echo "composer.json exists"; \
-    fi
-
-# Copiar los archivos del proyecto Laravel (incluido el archivo .env)
-COPY . /var/www/html
-
-# Verificar que el archivo .env exista
-RUN if [ ! -f /var/www/html/.env ]; then \
-        echo ".env file is missing"; \
-        exit 1; \
-    else \
-        echo ".env file exists"; \
     fi
 
 # Definir el directorio de trabajo
