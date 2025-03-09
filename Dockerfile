@@ -44,8 +44,11 @@ RUN cp /var/www/html/public/.htaccess /var/www/html/.htaccess
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
+# Verificar las rutas en `web.php` y registrar en los logs si hay problemas
+RUN php -r "if (!file_exists('/var/www/html/routes/web.php')) { file_put_contents('/var/www/html/storage/logs/error.log', 'Routes file web.php is missing.\n', FILE_APPEND); exit(1); }"
+
 # Exponer el puerto 80
 EXPOSE 80
 
-# Iniciar el servidor Apache
-CMD ["apache2-foreground"]
+# Comando para iniciar Apache y manejar el proceso
+CMD ["sh", "-c", "apache2-foreground || echo 'Apache failed to start' >> /var/www/html/storage/logs/error.log && exit 1"]
